@@ -54,7 +54,45 @@ def sell(f1, f2, dates):
             intersect.append((dates[i], (f1[i]+f1[i+1])/2))  # Dodajemy parę (data, wartość)
     return intersect
 
+def simulation(price,macdArray,signalArray,date,startUp=1000):
+    limitedPrice =price[EMAL+SIGNAL:]
+    wallet = 0
+    stockAmount = 1000
+    #startUpCapital=startUp*limitedPrice[0]#cena 1 dnia
+    limitedData = date[EMAL + SIGNAL:]
+    buy_points = buy(macdArray[SIGNAL:], signalArray, limitedData)
+    sell_points = sell(macdArray[SIGNAL:], signalArray, limitedData)
+    [buyDay, _ ] = buy_points[0]
+    [sellDay, _ ] = sell_points[0]
+    buyIndex=0
+    sellIndex=0
+    for i in range(len(limitedData)-1):
+        wallet = np.trunc(wallet * 100) / 100
+        value = (limitedPrice[i] + limitedPrice[i + 1]) / 2# srednia z dnia zakupu i dnia poprzeniego aby lepiej oddać faktyczna sytuacje
+        #value = limitedPrice[i]
+        #kupno
+        if(limitedData[i]==buyDay and wallet>value):
 
+            stockBuy = int(wallet/value)
+            wallet = wallet - stockBuy*value
+            stockAmount = stockBuy
+            if buyIndex<len(buy_points)-1:
+                buyIndex+=1
+                [buyDay, _ ] = buy_points[buyIndex]
+            #sprzedaż
+        elif (limitedData[i]==sellDay and stockAmount>0):
+            wallet = wallet +value*stockAmount
+            if sellIndex<len(sell_points)-1:
+                sellIndex+=1
+                [sellDay, _ ] = sell_points[sellIndex]
+
+    #na koniec sprzedaz
+
+    if stockAmount>0:
+        wallet = wallet + price[-1] * stockAmount
+
+    wallet = np.trunc(wallet * 100) / 100
+    return wallet
 def pricePlot(date ,price):
     plt.figure(figsize=(17, 5))
     plt.plot(date[EMAL:], price[EMAL:])
@@ -65,7 +103,7 @@ def pricePlot(date ,price):
     plt.xticks(rotation=15)
     plt.subplots_adjust(bottom=0.1,top=0.9,left=0.05)
     plt.title("TESLA")
-    plt.ylabel("Wartość jednej akcji ")
+    plt.ylabel("Wartość jednej akcji w dolarach [$] ")
 
 
 def macdAndSignalPlot(macdArray,signalArray):
@@ -80,7 +118,7 @@ def macdAndSignalPlot(macdArray,signalArray):
     plt.xticks(rotation=15)
     plt.subplots_adjust(bottom=0.1, top=0.9, left=0.05)
     plt.ylabel("Wartość średniej")
-    plt.legend(["MACD","SIGNAL"],loc = "best")
+
 
     buy_points = buy(macdArray[SIGNAL:], signalArray, date[EMAL + SIGNAL:])
     sell_points = sell(macdArray[SIGNAL:], signalArray, date[EMAL + SIGNAL:])
@@ -88,9 +126,11 @@ def macdAndSignalPlot(macdArray,signalArray):
     if buy_points:
         intersection_dates, intersection_values = zip(*buy_points)
         plt.scatter(intersection_dates, intersection_values, color='blue', marker='o')
+
     if sell_points:
         intersection_dates, intersection_values = zip(*sell_points)
         plt.scatter(intersection_dates, intersection_values, color='black', marker='x')
+        plt.legend(["MACD", "SIGNAL","Buy Points","Sell Points"], loc="best",fontsize=15)
 
 data = pd.read_csv('tsla_us_d.csv')
 price = data['Otwarcie'].tolist()
@@ -103,6 +143,12 @@ signalArray=signal(macdArray)
 
 # wykres macd i signal
 macdAndSignalPlot(macdArray,signalArray)
+
+
+wallet = simulation(price,macdArray,signalArray,date)
+
+print("kapitał poczatkowy: ",1000*price[EMAL+SIGNAL])
+print("wartość portfela na koniec: ",wallet)
 
 plt.show()
 
