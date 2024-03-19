@@ -54,11 +54,10 @@ def sell(f1, f2, dates):
             intersect.append((dates[i], (f1[i]+f1[i+1])/2))  # Dodajemy parę (data, wartość)
     return intersect
 
-def simulation(price,macdArray,signalArray,date,startUp=1000):
+def simulation(price,macdArray,signalArray,date):
     limitedPrice =price[EMAL+SIGNAL:]
     wallet = 0
-    stockAmount = 1000
-    #startUpCapital=startUp*limitedPrice[0]#cena 1 dnia
+    stockAmount = 1000#ile akcji na poczatek
     limitedData = date[EMAL + SIGNAL:]
     buy_points = buy(macdArray[SIGNAL:], signalArray, limitedData)
     sell_points = sell(macdArray[SIGNAL:], signalArray, limitedData)
@@ -105,20 +104,18 @@ def pricePlot(date ,price):
     plt.title("TESLA")
     plt.ylabel("Wartość jednej akcji w dolarach [$] ")
 
-
-def macdAndSignalPlot(macdArray,signalArray):
+def macdAndSignalPlot(date,macdArray,signalArray,month=4):
     plt.figure(figsize=(17, 5))
     plt.plot(date[EMAL + SIGNAL:], macdArray[SIGNAL:], "r")
     plt.plot(date[EMAL + SIGNAL:], signalArray, "g")
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
     plt.xlim(date[EMAL], date[-1])
     # Ustawienie ticks na osi x, aby wyświetlać tylko styczniowe daty
-    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=4))
+    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=month))
     plt.tight_layout()  # Dopasowanie layoutu
     plt.xticks(rotation=15)
     plt.subplots_adjust(bottom=0.1, top=0.9, left=0.05)
     plt.ylabel("Wartość średniej")
-
 
     buy_points = buy(macdArray[SIGNAL:], signalArray, date[EMAL + SIGNAL:])
     sell_points = sell(macdArray[SIGNAL:], signalArray, date[EMAL + SIGNAL:])
@@ -132,9 +129,36 @@ def macdAndSignalPlot(macdArray,signalArray):
         plt.scatter(intersection_dates, intersection_values, color='black', marker='x')
         plt.legend(["MACD", "SIGNAL","Buy Points","Sell Points"], loc="best",fontsize=15)
 
+    plt.axhline(y=0, color='k')
+
+def currencyPlot(date ,price):
+    plt.figure(figsize=(17, 5))
+    plt.plot(date, price)
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    plt.xlim(date[0], date[-1])
+    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=12))
+    plt.tight_layout()  # Dopasowanie layoutu
+    plt.xticks(rotation=15)
+    plt.subplots_adjust(bottom=0.1,top=0.9,left=0.05)
+    plt.title("EUR/PLN")
+    plt.ylabel("Cena EUR w PLN ")
+
+def profit(start,end):
+    return ((end-start)/start)*100
+
 data = pd.read_csv('tsla_us_d.csv')
 price = data['Otwarcie'].tolist()
 date = pd.to_datetime(data['Data']).tolist()
+
+currencyData = pd.read_csv('eurpln_w.csv')
+currencyPrice = currencyData['Otwarcie'].tolist()
+currencyDate = pd.to_datetime(currencyData['Data']).tolist()
+
+currencyPlot(currencyDate,currencyPrice)
+currencyMacdArray=macd(currencyPrice)
+currencySignalArray=signal(currencyMacdArray)
+
+macdAndSignalPlot(currencyDate,currencyMacdArray,currencySignalArray,12)
 
 # wykres ceny
 pricePlot(date,price)
@@ -142,13 +166,20 @@ macdArray=macd(price)
 signalArray=signal(macdArray)
 
 # wykres macd i signal
-macdAndSignalPlot(macdArray,signalArray)
+macdAndSignalPlot(date,macdArray,signalArray)
 
 
 wallet = simulation(price,macdArray,signalArray,date)
+print("TESLA")
+print("kapitał poczatkowy: ",1000*price[EMAL+SIGNAL],"$")
+print("wartość portfela na koniec: ",wallet,"$")
+print("zysk: ",round(profit(1000*price[EMAL+SIGNAL],wallet),2),"%")
+wallet = simulation(currencyPrice,currencyMacdArray,currencySignalArray,currencyDate)
+print("EUR/PLN")
+print("kapitał poczatkowy: ",1000*currencyPrice[EMAL+SIGNAL],"PLN")
+print("wartość portfela na koniec: ",wallet,"PLN")
+print("zysk: ",round(profit(1000*currencyPrice[EMAL+SIGNAL],wallet),2),"%")
 
-print("kapitał poczatkowy: ",1000*price[EMAL+SIGNAL])
-print("wartość portfela na koniec: ",wallet)
 
 plt.show()
 
