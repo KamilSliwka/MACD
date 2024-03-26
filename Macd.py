@@ -92,7 +92,27 @@ def simulation(price,macdArray,signalArray,date):
 
     wallet = np.trunc(wallet * 100) / 100
     return wallet
-def pricePlot(date ,price):
+
+def sellBuyPoints(buy_points, date, price, sell_points):
+    bp = []
+    d, _ = zip(*buy_points)
+    for i, day in enumerate(date):
+        if day in d:
+            bp.append([day, price[i]])
+    # Wyświetlanie punktów przecięcia na wykresie
+    intersection_dates = [row[0] for row in bp]
+    intersection_values = [row[1] for row in bp]
+    plt.scatter(intersection_dates, intersection_values, color='blue', marker='o')
+    sp = []
+    d, _ = zip(*sell_points)
+    for i, day in enumerate(date):
+        if day in d:
+            sp.append([day, price[i]])
+    intersection_dates = [row[0] for row in sp]
+    intersection_values = [row[1] for row in sp]
+    plt.scatter(intersection_dates, intersection_values, color='black', marker='x')
+    plt.legend(["Value", "Buy Points", "Sell Points"], loc="best", fontsize=15)
+def pricePlot(date ,price,signalArray,macdArray):
     plt.figure(figsize=(17, 5))
     plt.plot(date[EMAL:], price[EMAL:])
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
@@ -103,6 +123,13 @@ def pricePlot(date ,price):
     plt.subplots_adjust(bottom=0.1,top=0.9,left=0.05)
     plt.title("TESLA")
     plt.ylabel("Wartość jednej akcji w dolarach [$] ")
+    buy_points = buy(macdArray[SIGNAL:], signalArray, date[EMAL + SIGNAL:])
+    sell_points = sell(macdArray[SIGNAL:], signalArray, date[EMAL + SIGNAL:])
+    sellBuyPoints(buy_points, date, price, sell_points)
+
+
+
+
 
 def macdAndSignalPlot(date,macdArray,signalArray,month=4):
     plt.figure(figsize=(17, 5))
@@ -131,7 +158,7 @@ def macdAndSignalPlot(date,macdArray,signalArray,month=4):
 
     plt.axhline(y=0, color='k')
 
-def currencyPlot(date ,price):
+def currencyPlot(date ,price,currencySignalArray,currencyMacdArray):
     plt.figure(figsize=(17, 5))
     plt.plot(date, price)
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
@@ -142,6 +169,9 @@ def currencyPlot(date ,price):
     plt.subplots_adjust(bottom=0.1,top=0.9,left=0.05)
     plt.title("EUR/PLN")
     plt.ylabel("Cena EUR w PLN ")
+    buy_points = buy(currencyMacdArray[SIGNAL:], currencySignalArray, date[EMAL + SIGNAL:])
+    sell_points = sell(currencyMacdArray[SIGNAL:], currencySignalArray, date[EMAL + SIGNAL:])
+    sellBuyPoints(buy_points, date, price, sell_points)
 
 def profit(start,end):
     return ((end-start)/start)*100
@@ -154,16 +184,16 @@ currencyData = pd.read_csv('eurpln_w.csv')
 currencyPrice = currencyData['Otwarcie'].tolist()
 currencyDate = pd.to_datetime(currencyData['Data']).tolist()
 
-currencyPlot(currencyDate,currencyPrice)
 currencyMacdArray=macd(currencyPrice)
 currencySignalArray=signal(currencyMacdArray)
 
+currencyPlot(currencyDate,currencyPrice,currencySignalArray,currencyMacdArray)
 macdAndSignalPlot(currencyDate,currencyMacdArray,currencySignalArray,12)
 
 # wykres ceny
-pricePlot(date,price)
 macdArray=macd(price)
 signalArray=signal(macdArray)
+pricePlot(date,price,signalArray,macdArray)
 
 # wykres macd i signal
 macdAndSignalPlot(date,macdArray,signalArray)
