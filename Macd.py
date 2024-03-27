@@ -6,6 +6,7 @@ import pandas as pd
 EMAL =26 #exponential moving average long term average
 EMAS =12 #exponential moving average long short average
 SIGNAL = 9 #exponential moving average
+TERM = 100#long term average
 def alpha(n):
     return 2/(n+1)
 def up(value,index,days):
@@ -23,6 +24,13 @@ def down(days):
 
 def exponentialMovingAverage(value,index,days):
     return up(value,index,days)/down(days)
+
+def longTremTrend(value):
+    trendArray = []
+    for i in range(len(value) - TERM):
+        trendArray.append(exponentialMovingAverage(value, i + TERM, TERM))
+
+    return trendArray
 
 def macd(value):
     macdArray = []
@@ -93,6 +101,21 @@ def simulation(price,macdArray,signalArray,date):
     wallet = np.trunc(wallet * 100) / 100
     return wallet
 
+
+def partOfPricePlot(date ,price,signalArray,macdArray):
+    plt.figure(figsize=(17, 5))
+    plt.plot(date[EMAL:], price[EMAL:])
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    plt.xlim(date[EMAL], date[-1])
+    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=4))
+    plt.tight_layout()  # Dopasowanie layoutu
+    plt.xticks(rotation=15)
+    plt.subplots_adjust(bottom=0.1,top=0.9,left=0.05)
+    plt.title("TESLA")
+    plt.ylabel("Wartość jednej akcji w dolarach [$] ")
+    buy_points = buy(macdArray, signalArray, date)
+    sell_points = sell(macdArray, signalArray, date)
+    sellBuyPoints(buy_points, date, price, sell_points)
 def sellBuyPoints(buy_points, date, price, sell_points):
     bp = []
     d, _ = zip(*buy_points)
@@ -112,12 +135,14 @@ def sellBuyPoints(buy_points, date, price, sell_points):
     intersection_values = [row[1] for row in sp]
     plt.scatter(intersection_dates, intersection_values, color='black', marker='x')
     plt.legend(["Value", "Buy Points", "Sell Points"], loc="best", fontsize=15)
-def pricePlot(date ,price,signalArray,macdArray):
+def pricePlot(date ,price,signalArray,macdArray,termArray=[],month=4):
     plt.figure(figsize=(17, 5))
     plt.plot(date[EMAL:], price[EMAL:])
+    if len(termArray)!=0:
+         plt.plot(date[TERM:], termArray,"r")
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
     plt.xlim(date[EMAL], date[-1])
-    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=4))
+    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=month))
     plt.tight_layout()  # Dopasowanie layoutu
     plt.xticks(rotation=15)
     plt.subplots_adjust(bottom=0.1,top=0.9,left=0.05)
@@ -158,12 +183,12 @@ def macdAndSignalPlot(date,macdArray,signalArray,month=4):
 
     plt.axhline(y=0, color='k')
 
-def currencyPlot(date ,price,currencySignalArray,currencyMacdArray):
+def currencyPlot(date ,price,currencySignalArray,currencyMacdArray,month=12):
     plt.figure(figsize=(17, 5))
-    plt.plot(date, price)
+    plt.plot(date[EMAL:], price[EMAL:])
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-    plt.xlim(date[0], date[-1])
-    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=12))
+    plt.xlim(date[EMAL], date[-1])
+    plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=month))
     plt.tight_layout()  # Dopasowanie layoutu
     plt.xticks(rotation=15)
     plt.subplots_adjust(bottom=0.1,top=0.9,left=0.05)
@@ -188,15 +213,34 @@ currencyMacdArray=macd(currencyPrice)
 currencySignalArray=signal(currencyMacdArray)
 
 currencyPlot(currencyDate,currencyPrice,currencySignalArray,currencyMacdArray)
+#ciekawy okres dla EUR/PLN
+currencyPlot(currencyDate[:200+EMAL + SIGNAL],currencyPrice[:200+EMAL + SIGNAL],currencySignalArray[:200],currencyMacdArray[:200+ SIGNAL],month=2)
+currencyPlot(currencyDate[800:1000+EMAL + SIGNAL],currencyPrice[800:1000+EMAL + SIGNAL],currencySignalArray[800:1000],currencyMacdArray[800:1000+ SIGNAL],month=2)
+currencyPlot(currencyDate[1000:1200+EMAL + SIGNAL],currencyPrice[1000:1200+EMAL + SIGNAL],currencySignalArray[1000:1200],currencyMacdArray[1000:1200+ SIGNAL],month=2)
+
 macdAndSignalPlot(currencyDate,currencyMacdArray,currencySignalArray,12)
 
-# wykres ceny
+# wykres ceny Tesla
 macdArray=macd(price)
 signalArray=signal(macdArray)
-pricePlot(date,price,signalArray,macdArray)
+termArray=longTremTrend(price)
+pricePlot(date,price,signalArray,macdArray,termArray)
+#ciekawy okres dla tesli
+pricePlot(date[520:830+EMAL + SIGNAL],price[520:830+EMAL + SIGNAL],signalArray[520:830],macdArray[520:830+ SIGNAL],month=1)
 
 # wykres macd i signal
 macdAndSignalPlot(date,macdArray,signalArray)
+wallet = simulation(price,macdArray,signalArray,date)
+
+
+
+wallet = simulation(price[520:830+EMAL + SIGNAL],macdArray[520:830+ SIGNAL],signalArray[520:830],date[520:830+EMAL + SIGNAL])
+
+print("TESLA-ciekawy okres")
+print("kapitał poczatkowy: ",1000*price[520+EMAL+SIGNAL],"$")
+print("wartość portfela na koniec: ",wallet,"$")
+print("zysk: ",round(profit(1000*price[520+EMAL+SIGNAL],wallet),2),"%")
+
 
 
 wallet = simulation(price,macdArray,signalArray,date)
@@ -204,6 +248,16 @@ print("TESLA")
 print("kapitał poczatkowy: ",1000*price[EMAL+SIGNAL],"$")
 print("wartość portfela na koniec: ",wallet,"$")
 print("zysk: ",round(profit(1000*price[EMAL+SIGNAL],wallet),2),"%")
+
+
+wallet = simulation(currencyPrice[1000:1200+EMAL + SIGNAL],currencyMacdArray[1000:1200+ SIGNAL],currencySignalArray[1000:1200],currencyDate[1000:1200+EMAL + SIGNAL])
+print("EUR/PLN ciekawy okres 3")
+print("kapitał poczatkowy: ",1000*currencyPrice[1000+EMAL+SIGNAL],"PLN")
+print("wartość portfela na koniec: ",wallet,"PLN")
+print("zysk: ",round(profit(1000*currencyPrice[1000+EMAL+SIGNAL],wallet),2),"%")
+
+
+
 wallet = simulation(currencyPrice,currencyMacdArray,currencySignalArray,currencyDate)
 print("EUR/PLN")
 print("kapitał poczatkowy: ",1000*currencyPrice[EMAL+SIGNAL],"PLN")
@@ -212,6 +266,5 @@ print("zysk: ",round(profit(1000*currencyPrice[EMAL+SIGNAL],wallet),2),"%")
 
 
 plt.show()
-
 
 
