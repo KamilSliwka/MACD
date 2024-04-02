@@ -1,0 +1,346 @@
+TESLA-ciekawy okres
+cena kupna: 257.71
+cena sprzeda퓓: 364.0
+zysk: 41.25%
+cena kupna: 328.74
+cena sprzeda퓓: 342.28
+zysk: 4.12%
+cena kupna: 303.5
+cena sprzeda퓓: 255.14
+zysk: -15.94%
+cena kupna: 290.3
+cena sprzeda퓓: 259.31
+zysk: -10.67%
+cena kupna: 264.04
+cena sprzeda퓓: 354.31
+zysk: 34.19%
+cena kupna: 230.78
+cena sprzeda퓓: 218.08
+zysk: -5.5%
+cena kupna: 229.55
+cena sprzeda퓓: 225.0
+zysk: -1.98%
+cena kupna: 238.13
+cena sprzeda퓓: 292.65
+zysk: 22.9%
+cena kupna: 296.2
+cena sprzeda퓓: 277.46
+zysk: -6.33%
+cena kupna: 224.65
+cena sprzeda퓓: 192.4
+zysk: -14.36%
+cena kupna: 182.51
+cena sprzeda퓓: 167.06
+zysk: -8.47%
+TESLA
+cena kupna: 15.13
+cena sprzeda퓓: 16.05
+zysk: 6.11%
+cena kupna: 16.41
+cena sprzeda퓓: 23.37
+zysk: 42.38%
+cena kupna: 23.56
+cena sprzeda퓓: 33.38
+zysk: 41.68%
+cena kupna: 34.59
+cena sprzeda퓓: 37.02
+zysk: 7.0%
+cena kupna: 40.27
+cena sprzeda퓓: 50.66
+zysk: 25.79%
+cena kupna: 58.84
+cena sprzeda퓓: 58.2
+zysk: -1.08%
+cena kupna: 34.09
+cena sprzeda퓓: 48.28
+zysk: 41.65%
+cena kupna: 51.11
+cena sprzeda퓓: 53.67
+zysk: 5.02%
+cena kupna: 58.42
+cena sprzeda퓓: 66.63
+zysk: 14.04%
+cena kupna: 76.82
+cena sprzeda퓓: 103.17
+zysk: 34.3%
+cena kupna: 109.2
+cena sprzeda퓓: 135.01
+zysk: 23.63%
+cena kupna: 139.55
+cena sprzeda퓓: 146.33
+zysk: 4.86%
+cena kupna: 144.07
+cena sprzeda퓓: 136.63
+zysk: -5.16%
+cena kupna: 144.85
+cena sprzeda퓓: 204.68
+zysk: 41.3%
+cena kupna: 236.57
+cena sprzeda퓓: 285.62
+zysk: 20.73%
+cena kupna: 233.34
+cena sprzeda퓓: 202.9
+zysk: -13.05%
+cena kupna: 222.5
+cena sprzeda퓓: 243.55
+zysk: 9.46%
+cena kupna: 196.28
+cena sprzeda퓓: 215.44
+zysk: 9.76%
+cena kupna: 228.63
+cena sprzeda퓓: 229.62
+zysk: 0.43%
+cena kupna: 241.29
+cena sprzeda퓓: 248.62
+zysk: 3.04%
+cena kupna: 260.05
+cena sprzeda퓓: 364.0
+zysk: 39.97%
+cena kupna: 328.74
+cena sprzeda퓓: 342.28
+zysk: 4.12%
+cena kupna: 303.5
+cena sprzeda퓓: 255.14
+zysk: -15.94%
+cena kupna: 290.3
+cena sprzeda퓓: 259.31
+zysk: -10.67%
+cena kupna: 264.04
+cena sprzeda퓓: 354.31
+zysk: 34.19%
+cena kupna: 230.78
+cena sprzeda퓓: 218.08
+zysk: -5.5%
+cena kupna: 229.55
+cena sprzeda퓓: 225.0
+zysk: -1.98%
+cena kupna: 238.13
+cena sprzeda퓓: 292.65
+zysk: 22.9%
+cena kupna: 296.2
+cena sprzeda퓓: 277.46
+zysk: -6.33%
+cena kupna: 224.65
+cena sprzeda퓓: 192.4
+zysk: -14.36%
+cena kupna: 182.51
+cena sprzeda퓓: 167.06
+zysk: -8.47%
+cena kupna: 110.98
+cena sprzeda퓓: 193.18
+zysk: 74.07%
+cena kupna: 183.18
+cena sprzeda퓓: 181.51
+zysk: -0.91%
+cena kupna: 161.36
+cena sprzeda퓓: 262.95
+zysk: 62.96%
+cena kupna: 288.39
+cena sprzeda퓓: 287.8
+zysk: -0.2%
+cena kupna: 234.8
+cena sprzeda퓓: 262.45
+zysk: 11.78%
+cena kupna: 254.64
+cena sprzeda퓓: 239.32
+zysk: -6.02%
+cena kupna: 217.06
+cena sprzeda퓓: 234.44
+zysk: 8.01%
+cena kupna: 252.5
+cena sprzeda퓓: 252.59
+zysk: 0.04%
+cena kupna: 186.77
+cena sprzeda퓓: 190.89
+zysk: 2.21%
+EUR/PLN ciekawy okres 3
+cena kupna: 4.33
+cena sprzeda퓓: 4.31
+zysk: -0.51%
+cena kupna: 4.3
+cena sprzeda퓓: 4.29
+zysk: -0.17%
+cena kupna: 4.3
+cena sprzeda퓓: 4.3
+zysk: 0.05%
+cena kupna: 4.29
+cena sprzeda퓓: 4.31
+zysk: 0.52%
+cena kupna: 4.28
+cena sprzeda퓓: 4.48
+zysk: 4.67%
+cena kupna: 4.45
+cena sprzeda퓓: 4.48
+zysk: 0.59%
+cena kupna: 4.52
+cena sprzeda퓓: 4.53
+zysk: 0.11%
+cena kupna: 4.56
+cena sprzeda퓓: 4.54
+zysk: -0.36%
+cena kupna: 4.56
+cena sprzeda퓓: 4.63
+zysk: 1.36%
+cena kupna: 4.61
+cena sprzeda퓓: 4.63
+zysk: 0.47%
+EUR/PLN
+cena kupna: 4.15
+cena sprzeda퓓: 4.32
+zysk: 4.07%
+cena kupna: 4.02
+cena sprzeda퓓: 4.05
+zysk: 0.52%
+cena kupna: 3.98
+cena sprzeda퓓: 3.83
+zysk: -3.86%
+cena kupna: 3.4
+cena sprzeda퓓: 3.79
+zysk: 11.47%
+cena kupna: 3.6
+cena sprzeda퓓: 4.05
+zysk: 12.62%
+cena kupna: 4.01
+cena sprzeda퓓: 4.28
+zysk: 6.73%
+cena kupna: 4.48
+cena sprzeda퓓: 4.65
+zysk: 3.85%
+cena kupna: 4.82
+cena sprzeda퓓: 4.79
+zysk: -0.59%
+cena kupna: 4.45
+cena sprzeda퓓: 4.19
+zysk: -5.9%
+cena kupna: 4.18
+cena sprzeda퓓: 4.17
+zysk: -0.31%
+cena kupna: 4.0
+cena sprzeda퓓: 4.04
+zysk: 1.21%
+cena kupna: 3.95
+cena sprzeda퓓: 3.86
+zysk: -2.36%
+cena kupna: 3.83
+cena sprzeda퓓: 3.81
+zysk: -0.5%
+cena kupna: 3.8
+cena sprzeda퓓: 3.95
+zysk: 4.08%
+cena kupna: 3.85
+cena sprzeda퓓: 3.85
+zysk: -0.03%
+cena kupna: 3.78
+cena sprzeda퓓: 3.76
+zysk: -0.47%
+cena kupna: 3.61
+cena sprzeda퓓: 3.49
+zysk: -3.14%
+cena kupna: 3.3
+cena sprzeda퓓: 4.57
+zysk: 38.34%
+cena kupna: 4.17
+cena sprzeda퓓: 4.05
+zysk: -3.04%
+cena kupna: 3.88
+cena sprzeda퓓: 4.02
+zysk: 3.65%
+cena kupna: 3.93
+cena sprzeda퓓: 3.88
+zysk: -1.47%
+cena kupna: 3.94
+cena sprzeda퓓: 3.95
+zysk: 0.06%
+cena kupna: 3.99
+cena sprzeda퓓: 3.97
+zysk: -0.59%
+cena kupna: 3.99
+cena sprzeda퓓: 4.37
+zysk: 9.62%
+cena kupna: 4.48
+cena sprzeda퓓: 4.5
+zysk: 0.55%
+cena kupna: 4.19
+cena sprzeda퓓: 4.18
+zysk: -0.19%
+cena kupna: 4.1
+cena sprzeda퓓: 4.14
+zysk: 0.82%
+cena kupna: 4.18
+cena sprzeda퓓: 4.23
+zysk: 1.12%
+cena kupna: 4.15
+cena sprzeda퓓: 4.17
+zysk: 0.37%
+cena kupna: 4.16
+cena sprzeda퓓: 4.19
+zysk: 0.72%
+cena kupna: 4.31
+cena sprzeda퓓: 4.19
+zysk: -2.76%
+cena kupna: 4.09
+cena sprzeda퓓: 4.24
+zysk: 3.61%
+cena kupna: 4.25
+cena sprzeda퓓: 4.26
+zysk: 0.13%
+cena kupna: 4.34
+cena sprzeda퓓: 4.26
+zysk: -1.83%
+cena kupna: 4.32
+cena sprzeda퓓: 4.37
+zysk: 1.25%
+cena kupna: 4.4
+cena sprzeda퓓: 4.36
+zysk: -0.98%
+cena kupna: 4.33
+cena sprzeda퓓: 4.37
+zysk: 0.9%
+cena kupna: 4.18
+cena sprzeda퓓: 4.24
+zysk: 1.39%
+cena kupna: 4.17
+cena sprzeda퓓: 4.31
+zysk: 3.17%
+cena kupna: 4.3
+cena sprzeda퓓: 4.29
+zysk: -0.17%
+cena kupna: 4.3
+cena sprzeda퓓: 4.3
+zysk: 0.05%
+cena kupna: 4.29
+cena sprzeda퓓: 4.31
+zysk: 0.52%
+cena kupna: 4.28
+cena sprzeda퓓: 4.48
+zysk: 4.67%
+cena kupna: 4.45
+cena sprzeda퓓: 4.48
+zysk: 0.59%
+cena kupna: 4.52
+cena sprzeda퓓: 4.53
+zysk: 0.11%
+cena kupna: 4.56
+cena sprzeda퓓: 4.54
+zysk: -0.36%
+cena kupna: 4.56
+cena sprzeda퓓: 4.63
+zysk: 1.36%
+cena kupna: 4.61
+cena sprzeda퓓: 4.63
+zysk: 0.47%
+cena kupna: 4.69
+cena sprzeda퓓: 4.69
+zysk: -0.1%
+cena kupna: 4.71
+cena sprzeda퓓: 4.75
+zysk: 0.92%
+cena kupna: 4.71
+cena sprzeda퓓: 4.68
+zysk: -0.57%
+cena kupna: 4.46
+cena sprzeda퓓: 4.46
+zysk: 0.04%
+cena kupna: 4.36
+cena sprzeda퓓: 4.3
+zysk: -1.37%

@@ -73,30 +73,55 @@ def simulation(price,macdArray,signalArray,date):
     [sellDay, _ ] = sell_points[0]
     buyIndex=0
     sellIndex=0
-    for i in range(len(limitedData)-1):
-        wallet = np.trunc(wallet * 100) / 100
-        value = (limitedPrice[i] + limitedPrice[i + 1]) / 2# srednia z dnia zakupu i dnia poprzeniego aby lepiej oddać faktyczna sytuacje
-        #value = limitedPrice[i]
-        #kupno
-        if(limitedData[i]==buyDay and wallet>value):
+    lastBuy = limitedPrice[0]
+    with open("table.txt", "a") as plik:
+        tekst = "cena kupna: " + str(round(lastBuy, 2))
+        print(tekst)
+        plik.write(tekst + '\n')
+        for i in range(len(limitedData) - 1):
+            wallet = np.trunc(wallet * 100) / 100
+            value = (limitedPrice[i] + limitedPrice[
+                i + 1]) / 2  # srednia z dnia zakupu i dnia nastepnego aby lepiej oddać faktyczna sytuacje
+            # value = limitedPrice[i]
+            # kupno
+            if limitedData[i] == buyDay:
+                if wallet > value:
+                    tekst = "cena kupna: " + str(round(value, 2))
+                    print(tekst)
+                    plik.write(tekst + '\n')
+                    lastBuy = value
+                    stockBuy = int(wallet / value)
+                    wallet = wallet - stockBuy * value
+                    stockAmount = stockBuy
+                if buyIndex < len(buy_points) - 1:
+                    buyIndex += 1
+                    [buyDay, _] = buy_points[buyIndex]
+                # sprzedaż
+            elif (limitedData[i] == sellDay and stockAmount > 0):
 
-            stockBuy = int(wallet/value)
-            wallet = wallet - stockBuy*value
-            stockAmount = stockBuy
-            if buyIndex<len(buy_points)-1:
-                buyIndex+=1
-                [buyDay, _ ] = buy_points[buyIndex]
-            #sprzedaż
-        elif (limitedData[i]==sellDay and stockAmount>0):
-            wallet = wallet +value*stockAmount
-            if sellIndex<len(sell_points)-1:
-                sellIndex+=1
-                [sellDay, _ ] = sell_points[sellIndex]
+                tekst = "cena sprzedaży: " + str(round(value, 2))
+                print(tekst)
+                plik.write(tekst + '\n')
 
-    #na koniec sprzedaz
+                tekst = "zysk: " + str(round(profit(lastBuy, value), 2)) + "%"
+                print(tekst)
+                plik.write(tekst + '\n')
+                wallet = wallet + value * stockAmount
+                stockAmount = 0
+                if sellIndex < len(sell_points) - 1:
+                    sellIndex += 1
+                    [sellDay, _] = sell_points[sellIndex]
 
-    if stockAmount>0:
-        wallet = wallet + price[-1] * stockAmount
+    # na koniec sprzedaz
+
+        if stockAmount > 0:
+            tekst = "cena sprzedaży: " + str(round(value, 2))
+            print(tekst)
+            plik.write(tekst + '\n')
+            tekst = "zysk: " + str(round(profit(lastBuy, value), 2)) + "%"
+            print(tekst)
+            plik.write(tekst + '\n')
+            wallet = wallet + price[-1] * stockAmount
 
     wallet = np.trunc(wallet * 100) / 100
     return wallet
@@ -183,9 +208,11 @@ def macdAndSignalPlot(date,macdArray,signalArray,month=4):
 
     plt.axhline(y=0, color='k')
 
-def currencyPlot(date ,price,currencySignalArray,currencyMacdArray,month=12):
+def currencyPlot(date ,price,currencySignalArray,currencyMacdArray,termArray=[],month=12):
     plt.figure(figsize=(17, 5))
     plt.plot(date[EMAL:], price[EMAL:])
+    if len(termArray) != 0:
+        plt.plot(date[TERM:], termArray, "r")
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
     plt.xlim(date[EMAL], date[-1])
     plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=month))
@@ -211,7 +238,7 @@ currencyDate = pd.to_datetime(currencyData['Data']).tolist()
 
 currencyMacdArray=macd(currencyPrice)
 currencySignalArray=signal(currencyMacdArray)
-
+termArray=longTremTrend(currencyPrice)
 currencyPlot(currencyDate,currencyPrice,currencySignalArray,currencyMacdArray)
 #ciekawy okres dla EUR/PLN
 currencyPlot(currencyDate[:200+EMAL + SIGNAL],currencyPrice[:200+EMAL + SIGNAL],currencySignalArray[:200],currencyMacdArray[:200+ SIGNAL],month=2)
@@ -224,42 +251,52 @@ macdAndSignalPlot(currencyDate,currencyMacdArray,currencySignalArray,12)
 macdArray=macd(price)
 signalArray=signal(macdArray)
 termArray=longTremTrend(price)
-pricePlot(date,price,signalArray,macdArray,termArray)
+pricePlot(date,price,signalArray,macdArray)
 #ciekawy okres dla tesli
 pricePlot(date[520:830+EMAL + SIGNAL],price[520:830+EMAL + SIGNAL],signalArray[520:830],macdArray[520:830+ SIGNAL],month=1)
 
 # wykres macd i signal
 macdAndSignalPlot(date,macdArray,signalArray)
-wallet = simulation(price,macdArray,signalArray,date)
+#wallet = simulation(price,macdArray,signalArray,date)
 
+with open("table.txt", "w") as plik:
+    plik.truncate(0)
 
-
-wallet = simulation(price[520:830+EMAL + SIGNAL],macdArray[520:830+ SIGNAL],signalArray[520:830],date[520:830+EMAL + SIGNAL])
-
+with open("table.txt", "a") as plik:
+    tekst = "TESLA-ciekawy okres"
+    plik.write(tekst + '\n')
 print("TESLA-ciekawy okres")
+wallet = simulation(price[520:830+EMAL + SIGNAL],macdArray[520:830+ SIGNAL],signalArray[520:830],date[520:830+EMAL + SIGNAL])
 print("kapitał poczatkowy: ",1000*price[520+EMAL+SIGNAL],"$")
 print("wartość portfela na koniec: ",wallet,"$")
 print("zysk: ",round(profit(1000*price[520+EMAL+SIGNAL],wallet),2),"%")
 
+with open("table.txt", "a") as plik:
+    tekst = "TESLA"
+    plik.write(tekst + '\n')
 
-
-wallet = simulation(price,macdArray,signalArray,date)
 print("TESLA")
+wallet = simulation(price,macdArray,signalArray,date)
 print("kapitał poczatkowy: ",1000*price[EMAL+SIGNAL],"$")
 print("wartość portfela na koniec: ",wallet,"$")
 print("zysk: ",round(profit(1000*price[EMAL+SIGNAL],wallet),2),"%")
 
-
-wallet = simulation(currencyPrice[1000:1200+EMAL + SIGNAL],currencyMacdArray[1000:1200+ SIGNAL],currencySignalArray[1000:1200],currencyDate[1000:1200+EMAL + SIGNAL])
+with open("table.txt", "a") as plik:
+    tekst = "EUR/PLN ciekawy okres 3"
+    plik.write(tekst + '\n')
 print("EUR/PLN ciekawy okres 3")
+wallet = simulation(currencyPrice[1000:1200+EMAL + SIGNAL],currencyMacdArray[1000:1200+ SIGNAL],currencySignalArray[1000:1200],currencyDate[1000:1200+EMAL + SIGNAL])
 print("kapitał poczatkowy: ",1000*currencyPrice[1000+EMAL+SIGNAL],"PLN")
 print("wartość portfela na koniec: ",wallet,"PLN")
 print("zysk: ",round(profit(1000*currencyPrice[1000+EMAL+SIGNAL],wallet),2),"%")
 
 
 
-wallet = simulation(currencyPrice,currencyMacdArray,currencySignalArray,currencyDate)
+with open("table.txt", "a") as plik:
+    tekst = "EUR/PLN"
+    plik.write(tekst + '\n')
 print("EUR/PLN")
+wallet = simulation(currencyPrice,currencyMacdArray,currencySignalArray,currencyDate)
 print("kapitał poczatkowy: ",1000*currencyPrice[EMAL+SIGNAL],"PLN")
 print("wartość portfela na koniec: ",wallet,"PLN")
 print("zysk: ",round(profit(1000*currencyPrice[EMAL+SIGNAL],wallet),2),"%")
